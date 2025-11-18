@@ -9,7 +9,10 @@ from datetime import datetime, timedelta
 import io
 import base64
 import numpy as np
-from config import MONGODB_CONNECTION_STRING, MONGODB_DATABASE, COLLECTIONS
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+from config.config import MONGODB_CONNECTION_STRING, MONGODB_DATABASE, COLLECTIONS
 
 # ---------- Estilo visual ----------
 PLOT_TEMPLATE = "plotly_white"

@@ -7,7 +7,10 @@ import time
 from datetime import datetime
 from kafka import KafkaConsumer
 from pymongo import MongoClient
-from config import KAFKA_BOOTSTRAP_SERVERS, MONGODB_CONNECTION_STRING, MONGODB_DATABASE
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+from config.config import KAFKA_BOOTSTRAP_SERVERS, MONGODB_CONNECTION_STRING, MONGODB_DATABASE
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go

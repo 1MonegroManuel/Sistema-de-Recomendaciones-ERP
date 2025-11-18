@@ -8,9 +8,9 @@ import random
 import re
 
 # Configuración
-INPUT_CSV = Path("./archive/Sample - Superstore.csv")
-OUTPUT_DIR = Path("./csv_out")
-OUTPUT_DIR.mkdir(exist_ok=True)
+INPUT_CSV = Path(__file__).parent.parent / "data" / "archive" / "Sample - Superstore.csv"
+OUTPUT_DIR = Path(__file__).parent.parent / "data" / "csv_out"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Para generar datos faltantes
 random.seed(42)

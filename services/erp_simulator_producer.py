@@ -1,14 +1,16 @@
 # erp_simulator_producer_final.py
 # Versión final optimizada usando confluent-kafka
 import csv, json, random, time
+import sys
 from pathlib import Path
 from typing import Dict, Any
 from confluent_kafka import Producer
 import logging
-from config import KAFKA_BOOTSTRAP_SERVERS
+sys.path.append(str(Path(__file__).parent.parent))
+from config.config import KAFKA_BOOTSTRAP_SERVERS
 
 # ---------- Config ----------
-CSV_DIR = Path("./csv_out")
+CSV_DIR = Path(__file__).parent.parent / "data" / "csv_out"
 BROKER = KAFKA_BOOTSTRAP_SERVERS
 SHUFFLE = True
 EVENTS_PER_SECOND = 20  # Aumentado para mejor rendimiento

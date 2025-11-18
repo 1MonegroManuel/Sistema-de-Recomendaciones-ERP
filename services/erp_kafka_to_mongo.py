@@ -7,7 +7,10 @@ from kafka import KafkaConsumer
 from pymongo import MongoClient, UpdateOne
 import json, time
 import ast
-from config import MONGODB_CONNECTION_STRING, KAFKA_BOOTSTRAP_SERVERS, MONGODB_DATABASE, COLLECTIONS
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+from config.config import MONGODB_CONNECTION_STRING, KAFKA_BOOTSTRAP_SERVERS, MONGODB_DATABASE, COLLECTIONS
 
 BROKER = KAFKA_BOOTSTRAP_SERVERS
 MONGO_URI = MONGODB_CONNECTION_STRING

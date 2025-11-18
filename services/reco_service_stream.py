@@ -2,11 +2,13 @@
 # Servicio en tiempo real: consume ventas, genera recomendaciones y publica a Kafka
 
 import json, pickle, time, signal, sys
+from pathlib import Path
 from typing import List, Dict
 from kafka import KafkaConsumer, KafkaProducer
 from pymongo import MongoClient
-from config import MONGODB_CONNECTION_STRING, MONGODB_DATABASE, KAFKA_BOOTSTRAP_SERVERS
 from datetime import datetime
+sys.path.append(str(Path(__file__).parent.parent))
+from config.config import MONGODB_CONNECTION_STRING, MONGODB_DATABASE, KAFKA_BOOTSTRAP_SERVERS
 
 # Variable global para manejar señales de interrupción
 shutdown_flag = False
@@ -30,7 +32,7 @@ DB_NAME    = MONGODB_DATABASE          # ✅ Usa erp_database (donde están tus 
 DET_COLL   = "sales_items"             # ✅ Colección correcta
 RECO_COLL  = "recommendations"         # ✅ Colección para guardar recomendaciones
 
-MODEL_PATH = "models/item_sim.pkl"
+MODEL_PATH = str(Path(__file__).parent.parent / "data" / "models" / "item_sim.pkl")
 TOP_N      = 5
 
 # ------- util -------

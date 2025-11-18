@@ -3,18 +3,20 @@
 # Fuente: MongoDB Atlas (colección sales_items). Salida: models/item_sim.pkl
 
 import os, math, pickle
+import sys
+from pathlib import Path
 from datetime import datetime
 from collections import defaultdict, Counter
-
 from pymongo import MongoClient
-from config import MONGODB_CONNECTION_STRING, MONGODB_DATABASE
+sys.path.append(str(Path(__file__).parent.parent))
+from config.config import MONGODB_CONNECTION_STRING, MONGODB_DATABASE
 
 MONGO_URI = MONGODB_CONNECTION_STRING  # ✅ Usa MongoDB Atlas
 DB_NAME   = MONGODB_DATABASE          # ✅ Usa erp_database (donde están tus datos)
 DET_COLL  = "sales_items"             # ✅ Colección correcta
 
-OUT_DIR   = "models"
-OUT_PATH  = os.path.join(OUT_DIR, "item_sim.pkl")
+OUT_DIR   = Path(__file__).parent.parent / "data" / "models"
+OUT_PATH  = OUT_DIR / "item_sim.pkl"
 
 # Hiperparámetros del trainer
 RECENCY_HALFLIFE_MONTHS = 6       # decaimiento temporal (más peso a lo reciente)
@@ -29,7 +31,7 @@ def time_decay_weight(ts: datetime, ref: datetime, half_life_m=RECENCY_HALFLIFE_
     return 0.5 ** (months / float(half_life_m)) if half_life_m > 0 else 1.0
 
 def main():
-    os.makedirs(OUT_DIR, exist_ok=True)
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
     db = MongoClient(MONGO_URI)[DB_NAME]
 
     # 1) Leemos cestas (venta -> lista de product_id)
@@ -97,10 +99,10 @@ def main():
         item_sim[i] = sims[:TOP_SIM_PER_ITEM]
 
     # 4) Guardar
-    with open(OUT_PATH, "wb") as f:
+    with open(str(OUT_PATH), "wb") as f:
         pickle.dump({"item_sim": item_sim, "item_count": dict(item_count)}, f)
 
-    print(f"✅ Modelo guardado en {OUT_PATH} | Items con vecinos: {len(item_sim)}")
+    print(f"✅ Modelo guardado en {str(OUT_PATH)} | Items con vecinos: {len(item_sim)}")
 
 if __name__ == "__main__":
     main()

@@ -9,7 +9,10 @@ import plotly.graph_objects as go
 import pymongo
 import io, base64
 from datetime import datetime
-from config import MONGODB_CONNECTION_STRING, MONGODB_DATABASE, COLLECTIONS
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+from config.config import MONGODB_CONNECTION_STRING, MONGODB_DATABASE, COLLECTIONS
 
 # ===== Config =====
 MONGO_URI = MONGODB_CONNECTION_STRING
